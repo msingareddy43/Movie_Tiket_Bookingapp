@@ -1,18 +1,18 @@
 # 🎬 Movie Ticket Booking App
 
-A web-based **Movie Ticket Booking System** built using the **Python Django Framework**.
-This project allows users to browse available movies, book tickets, and manage bookings through an admin dashboard.
+A **Movie Ticket Booking System** built using **Python Django Framework**, designed for learning and deploying full-stack web apps.
+Users can browse movies, select seats, and book tickets online with admin management.
 
 ---
 
 ## 🚀 Features
 
 * User registration and login
-* View available movies and timings
-* Book and manage tickets
-* Admin dashboard for movie and booking management
-* SQLite/MySQL database support
-* Simple Bootstrap UI
+* Browse and book movies
+* Manage bookings
+* Admin dashboard
+* Works with SQLite or MySQL
+* Can run locally or in Docker
 
 ---
 
@@ -22,18 +22,19 @@ This project allows users to browse available movies, book tickets, and manage b
 * **Framework:** Django 4.x
 * **Database:** SQLite (default) / MySQL (optional)
 * **Frontend:** HTML, CSS, Bootstrap
-* **Platform:** Windows 10 / 11
+* **Platform:** Windows 10/11
 * **Package Manager:** Chocolatey
+* **Containerization:** Docker + Docker Compose
 
 ---
 
 ## ⚙️ Prerequisites
 
-Before setup, ensure you have **administrator privileges** on Windows.
+Before starting, ensure you have admin access on your Windows machine.
 
-### 1. Install [Chocolatey](https://chocolatey.org/install)
+### 1️⃣ Install [Chocolatey](https://chocolatey.org/install)
 
-Open **PowerShell as Administrator** and run:
+Run PowerShell as **Administrator** and execute:
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force; `
@@ -42,7 +43,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; `
 iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 ```
 
-Then verify installation:
+Then verify:
 
 ```bash
 choco -v
@@ -50,32 +51,33 @@ choco -v
 
 ---
 
-## 🧩 Install All Dependencies Using Chocolatey
-
-Run the following in PowerShell or CMD **(as Administrator)**:
+### 2️⃣ Install Dependencies with Chocolatey
 
 ```bash
-choco install python git -y
+choco install python git docker-desktop -y
 ```
 
-Optional (for database management):
+After installation:
 
-```bash
-choco install mysql mysql.workbench -y
-```
+* Restart your system
+* Launch **Docker Desktop**
+* Wait until it shows **“Docker Engine is running”**
 
 ---
 
 ## 🧠 Set Environment Variables (if needed)
 
-Usually Python adds itself to PATH automatically.
-If not, manually set it:
+If Python isn’t recognized:
 
 1. Press **Win + R → type `sysdm.cpl` → Advanced → Environment Variables**
-2. Under *System variables*, edit `Path`
-3. Add your Python installation path (e.g. `C:\Python311\Scripts\` and `C:\Python311\`)
+2. Edit `Path` and add:
 
-Verify installation:
+   ```
+   C:\Python311\
+   C:\Python311\Scripts\
+   ```
+
+Verify:
 
 ```bash
 python --version
@@ -93,120 +95,62 @@ cd Movie_Tiket_Bookingapp
 
 ---
 
-## 🧱 Create and Activate Virtual Environment
+## 🧱 Setup with Virtual Environment (Optional if not using Docker)
 
 ```bash
-# Create virtual environment
 python -m venv venv
-
-# Activate it
 venv\Scripts\activate
-```
-
-You should now see `(venv)` in your terminal.
-
----
-
-## 📦 Install Required Python Packages
-
-If a `requirements.txt` file exists:
-
-```bash
 pip install -r requirements.txt
-```
-
-If not, install manually:
-
-```bash
-pip install django
-```
-
-Optional for MySQL users:
-
-```bash
-pip install mysqlclient
-```
-
----
-
-## 🗄️ Configure Database (SQLite or MySQL)
-
-### Option 1: Use Default SQLite
-
-No setup needed — works out of the box.
-
-### Option 2: Use MySQL
-
-Edit your `settings.py` inside the project folder:
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'movie_ticket_db',
-        'USER': 'root',
-        'PASSWORD': 'yourpassword',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-```
-
-Then run:
-
-```bash
-pip install mysqlclient
-```
-
----
-
-## 🧩 Apply Migrations
-
-```bash
-python manage.py makemigrations
 python manage.py migrate
-```
-
----
-
-## 👩‍💼 Create Superuser (Admin)
-
-```bash
-python manage.py createsuperuser
-```
-
-Enter a username, email, and password when prompted.
-
----
-
-## ▶️ Run the Server
-
-```bash
 python manage.py runserver
 ```
 
-Now open your browser and go to:
+Open: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-```
-http://127.0.0.1:8000/
-```
+---
 
-Admin panel:
+These steps will run the entire Django app inside a container automatically.
 
-```
-http://127.0.0.1:8000/admin
+---
+
+
+### 1 Build and Run the Container
+
+Open PowerShell inside the project folder and run:
+
+```bash
+docker compose up --build
 ```
 
 ---
 
-## 🧠 Common Errors & Fixes
+### 2 Verify It’s Running
 
-| Issue                                           | Solution                                    |
-| ----------------------------------------------- | ------------------------------------------- |
-| `django.core.exceptions.ImproperlyConfigured`   | Check database settings                     |
-| `ModuleNotFoundError: No module named 'django'` | Run `pip install django`                    |
-| `venv\Scripts\activate` not working             | Use `.\venv\Scripts\activate` in PowerShell |
-| Static files not loading                        | Run `python manage.py collectstatic`        |
+Once the build is complete, open your browser:
+
+```
+http://localhost:8000
+```
+
+You’ll see your Django Movie Ticket Booking app running inside Docker 🎉
+
+To stop the container:
+
+```bash
+docker compose down
+```
+
+---
+
+## 🧠 Common Docker Commands (For Reference)
+
+| Command                | Description                  |
+| ---------------------- | ---------------------------- |
+| `docker ps`            | List running containers      |
+| `docker images`        | Show downloaded images       |
+| `docker stop <id>`     | Stop a running container     |
+| `docker compose build` | Rebuild after code changes   |
+| `docker compose up -d` | Run containers in background |
 
 ---
 
@@ -216,12 +160,14 @@ http://127.0.0.1:8000/admin
 Movie_Tiket_Bookingapp/
 ├── manage.py
 ├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
 ├── db.sqlite3
 ├── movieapp/
 │   ├── templates/
 │   ├── static/
-│   ├── models.py
 │   ├── views.py
+│   ├── models.py
 │   └── urls.py
 └── Movie_Tiket_Bookingapp/
     ├── settings.py
@@ -231,10 +177,17 @@ Movie_Tiket_Bookingapp/
 
 ---
 
+## ✅ Next Steps
+
+* Add your project to **GitHub**
+* Optionally connect to **AWS CodePipeline → CodeBuild → CodeDeploy → EC2**
+* Or deploy directly using **Docker Hub + AWS ECS**
+
+---
+
 ## 🤝 Contributing
 
-Pull requests are welcome!
-For major changes, please open an issue first to discuss what you’d like to change.
+Pull requests are welcome! For major changes, open an issue first.
 
 ---
 
