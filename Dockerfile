@@ -1,18 +1,15 @@
-# Use official Python image
+
 FROM python:3.10-slim
 
-# Set working directory inside container
 WORKDIR /app
 
-# Copy project files
 COPY . /app
 
-# Install dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt || pip install django
+RUN apt-get update && apt-get install -y python3-dev libpq-dev && \
+    pip install --upgrade pip && \
+    pip install django psycopg2-binary && \
+    python manage.py collectstatic --noinput || true
 
-# Expose Django port
 EXPOSE 8000
 
-# Run the Django server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
